@@ -96,7 +96,7 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesAdapter.MatchVie
         @Override
         public void onClick(View view) {
             view.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-            listener.onInfoClicked(view, word);
+            listener.onIconClicked(view, word);
         }
 
         @Override
