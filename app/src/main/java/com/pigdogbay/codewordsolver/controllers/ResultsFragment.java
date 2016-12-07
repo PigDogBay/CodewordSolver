@@ -62,7 +62,7 @@ public class ResultsFragment extends Fragment implements MatchListener, PopupMen
         _TextStatus = (TextView) rootView.findViewById(R.id.resultsTextStatus);
 
         _ItemAdapter = new MatchesAdapter(wordMatches,this);
-        _ItemAdapter.setTextSize(MatchesAdapter.TextSize.LARGE);
+        _ItemAdapter.setTextSize(MatchesAdapter.TextSize.XLARGE);
 
         this.stateChangeListener = new ObservableProperty.PropertyChangedObserver<BackgroundTasks.States>() {
             @Override
