@@ -58,4 +58,10 @@ public class SquareSet
         return false;
     }
 
+   public void addNewSquares(List<Square> newSquares)
+   {
+       for (Square square : newSquares){
+           getSquare(square.getNumber()).setLetter(square.getLetter());
+       }
+   }
 }

@@ -1,14 +1,11 @@
 package com.pigdogbay.codewordsolver;
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.pigdogbay.codewordsolver.model.Analysis;
 import com.pigdogbay.codewordsolver.model.Query;
 import com.pigdogbay.codewordsolver.model.Square;
 import com.pigdogbay.codewordsolver.model.SquareSet;
-import com.pigdogbay.lib.utils.CodewordSolver;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 @RunWith(AndroidJUnit4.class)
 public class AnalysisTest {
@@ -40,8 +37,11 @@ public class AnalysisTest {
         assertThat(common.size(), is(0));
     }
 
+    /**
+     * 1 result
+     */
     @Test
-    public void analyzeResults2(){
+    public void analyzeResults1(){
         SquareSet squareSet = new SquareSet();
         squareSet.setLetter(23,"A");
         squareSet.setLetter(7,"B");
@@ -65,8 +65,38 @@ public class AnalysisTest {
         assertThat(newSquares.get(1).getLetter(),is("U"));
         assertThat(newSquares.get(2).getLetter(),is("R"));
         assertThat(newSquares.get(3).getLetter(),is("T"));
-
-
+        assertThat(newSquares.get(0).getNumber(),is(12));
+        assertThat(newSquares.get(1).getNumber(),is(5));
+        assertThat(newSquares.get(2).getNumber(),is(13));
+        assertThat(newSquares.get(3).getNumber(),is(15));
+    }
+    /**
+     * Multiple result
+     */
+    @Test
+    public void analyzeResults2() {
+        SquareSet squareSet = new SquareSet();
+        squareSet.setLetter(23,"A");
+        squareSet.setLetter(7,"B");
+        Query query = new Query();
+        query.add(squareSet.getSquare(11));
+        query.add(squareSet.getSquare(14));
+        query.add(squareSet.getSquare(14));
+        query.add(squareSet.getSquare(24));
+        query.add(squareSet.getSquare(9));
+        query.add(squareSet.getSquare(14));
+        query.add(squareSet.getSquare(19));
+        query.add(squareSet.getSquare(19));
+        Analysis analysis = new Analysis();
+        analysis.setSquareSet(squareSet);
+        analysis.setQuery(query);
+        String[] results = {"deepness","heedless","meekness","needless","peerless","weedless"};
+        List<Square> newSquares = analysis.analyzeResults(Arrays.asList(results));
+        assertThat(newSquares.size(),is(2));
+        assertThat(newSquares.get(0).getLetter(),is("E"));
+        assertThat(newSquares.get(1).getLetter(),is("S"));
+        assertThat(newSquares.get(0).getNumber(),is(14));
+        assertThat(newSquares.get(1).getNumber(),is(19));
     }
 
 }

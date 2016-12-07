@@ -54,13 +54,13 @@ public class Analysis {
         List<Square> newSquares = new ArrayList<>();
         if (results.size()==1)
         {
-            String uniqueResult = results.get(0).toUpperCase();
+            String firstResult = results.get(0).toUpperCase();
             //add all new letters
             for (int i=0; i<query.getSquares().size();i++){
                 Square square = query.getSquares().get(i);
                 if (square.getLetter().equals("")){
                     //found a new letter
-                    String newLetter = String.valueOf(uniqueResult.charAt(i));
+                    String newLetter = String.valueOf(firstResult.charAt(i));
                     //don't really need this check, but just incase!
                     //but makesure not already in new squares
                     if (!squareSet.contains(newLetter) && !contains(newSquares, newLetter)) {
@@ -70,6 +70,19 @@ public class Analysis {
             }
         } else if (results.size()<50){
             //look for any common letters
+            List<Integer> commonLetters = findCommonLetters(results);
+            String firstResult = results.get(0).toUpperCase();
+            if (commonLetters.size()>0){
+                for (int index : commonLetters){
+                    Square square = query.getSquares().get(index);
+                    if (square.getLetter().equals("")) {
+                        String newLetter = String.valueOf(firstResult.charAt(index));
+                        if (!squareSet.contains(newLetter) && !contains(newSquares, newLetter)) {
+                            newSquares.add(new Square(square.getNumber(), newLetter));
+                        }
+                    }
+                }
+            }
         }
         return newSquares;
     }

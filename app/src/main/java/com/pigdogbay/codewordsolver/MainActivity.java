@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.pigdogbay.codewordsolver.controllers.ResultsFragment;
 import com.pigdogbay.codewordsolver.controllers.SquareAdapter;
@@ -122,9 +123,17 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         Analysis analysis = MainModel.get().getAnalysis();
         List<String> results = MainModel.get().getBackgroundTasks().wordMatches.getMatches();
         List<Square> newSquares = analysis.analyzeResults(results);
-        //ask user to add new squares
-        //yes update query/squareset/keyboard
-        keyboardView.invalidate();
+        if (newSquares.size()>0){
+            String newLetters = "Adding ";
+            for (Square s : newSquares){
+                newLetters = newLetters+s.getLetter();
+            }
+            Toast.makeText(this,newLetters,Toast.LENGTH_LONG).show();
+            //ask user to add new squares
+            //yes update query/squareset/keyboard
+            MainModel.get().getSquareSet().addNewSquares(newSquares);
+            keyboardView.invalidate();
+        }
     }
 
     @Override
@@ -142,7 +151,12 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
                 break;
             case searching:
                 break;
+            case analyzing:
+                analyzeResults();
+                MainModel.get().getBackgroundTasks().analysisComplete();
+                break;
             case finished:
+                analyzeResults();
                 break;
             case loadError:
                 break;

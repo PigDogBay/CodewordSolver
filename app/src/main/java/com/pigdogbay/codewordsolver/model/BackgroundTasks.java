@@ -27,7 +27,7 @@ public class BackgroundTasks
 
     public enum States
     {
-        uninitialized, loading, ready, searching, finished, loadError
+        uninitialized, loading, ready, searching, analyzing, finished, loadError
     }
     private List<WordList> wordLists;
     private String query;
@@ -84,7 +84,12 @@ public class BackgroundTasks
         protected void onPostExecute(Void result) {
             stateObservable.setValue( isLoadError ? States.loadError : States.ready);
         }
-
+    }
+    public void analysisComplete(){
+        if (States.analyzing == stateObservable.getValue())
+        {
+            stateObservable.setValue(States.finished);
+        }
     }
     public boolean isReady()
     {
@@ -130,7 +135,7 @@ public class BackgroundTasks
         }
         @Override
         protected void onPostExecute(Void result) {
-            stateObservable.setValue(States.finished);
+            stateObservable.setValue(States.analyzing);
         }
         @Override
         public void Update(String result) {
