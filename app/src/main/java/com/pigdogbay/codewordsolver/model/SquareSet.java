@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class SquareSet
 {
-    Square[] set = new Square[27];
+    private Square[] set = new Square[27];
 
     public SquareSet(){
         for (int i = 0; i<26; i++){
@@ -37,12 +37,25 @@ public class SquareSet
         return Arrays.asList(set);
     }
 
+    public Square getSquare(int number){
+        return set[number-1];
+    }
+
     public String getFoundLetters(){
         String found = "";
         for (Square s : set){
             found = found+s.getLetter();
         }
         return found;
+    }
+
+    boolean contains(String letter){
+        for (Square s : set){
+            if (s.getLetter().equals(letter)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

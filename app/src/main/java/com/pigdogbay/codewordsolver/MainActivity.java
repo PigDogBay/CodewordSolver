@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.pigdogbay.codewordsolver.controllers.ResultsFragment;
 import com.pigdogbay.codewordsolver.controllers.SquareAdapter;
+import com.pigdogbay.codewordsolver.model.Analysis;
 import com.pigdogbay.codewordsolver.model.BackgroundTasks;
 import com.pigdogbay.codewordsolver.model.MainModel;
 import com.pigdogbay.codewordsolver.model.Query;
@@ -118,8 +119,11 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     }
 
     private void analyzeResults(){
-        MainModel mainModel = MainModel.get();
-        mainModel.getQuery().analyze(mainModel.getBackgroundTasks().wordMatches.getMatches());
+        Analysis analysis = MainModel.get().getAnalysis();
+        List<String> results = MainModel.get().getBackgroundTasks().wordMatches.getMatches();
+        List<Square> newSquares = analysis.analyzeResults(results);
+        //ask user to add new squares
+        //yes update query/squareset/keyboard
         keyboardView.invalidate();
     }
 
@@ -128,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         modelToView(update);
     }
     private void modelToView(BackgroundTasks.States state ){
-        Log.v("mpdb", state.name());
         switch (state){
             case uninitialized:
                 MainModel.get().getBackgroundTasks().loadWordLists(this,new int[]{R.raw.standard,R.raw.pro});
@@ -164,6 +167,10 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         {
             replaceMainFragment(new ResultsFragment(), ResultsFragment.TAG);
         }
+    }
+
+    public void addResult(String word){
+
     }
 
 }

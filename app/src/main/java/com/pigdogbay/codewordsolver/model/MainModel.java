@@ -14,6 +14,7 @@ public class MainModel
     private Query query;
     private BackgroundTasks backgroundTasks;
     private CodewordSolver codewordSolver;
+    private Analysis analysis;
 
     public static MainModel get(){
         if (mainModel==null){
@@ -48,5 +49,14 @@ public class MainModel
             codewordSolver = new CodewordSolver();
         }
         return codewordSolver;
+    }
+
+    public Analysis getAnalysis() {
+        if (analysis == null){
+            analysis = new Analysis();
+            analysis.setSquareSet(getSquareSet());
+            analysis.setQuery(getQuery());
+        }
+        return analysis;
     }
 }

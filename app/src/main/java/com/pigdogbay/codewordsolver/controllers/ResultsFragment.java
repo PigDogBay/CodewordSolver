@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pigdogbay.codewordsolver.MainActivity;
 import com.pigdogbay.codewordsolver.R;
 import com.pigdogbay.codewordsolver.model.BackgroundTasks;
 import com.pigdogbay.codewordsolver.model.MainModel;
@@ -101,7 +102,8 @@ public class ResultsFragment extends Fragment implements MatchListener, PopupMen
 
     @Override
     public void onIconClicked(View v, String word) {
-
+        //add letters to the letter set
+        ((MainActivity)getActivity()).addResult(word);
     }
 
     @Override
