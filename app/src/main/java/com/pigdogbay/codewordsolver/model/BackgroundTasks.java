@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class BackgroundTasks
 {
-    public static final int TABLE_MAX_COUNT_TO_RELOAD = 40;
-    public static final int DEFAULT_RESULTS_LIMIT = 100;
+    private static final int TABLE_MAX_COUNT_TO_RELOAD = 40;
+    private static final int DEFAULT_RESULTS_LIMIT = 100;
 
     public enum States
     {
@@ -36,7 +36,7 @@ public class BackgroundTasks
     public ObservableProperty<String> matchObservable;
     public WordMatches wordMatches;
 
-    public BackgroundTasks(){
+    BackgroundTasks(){
         query = "";
         wordMatches = new WordMatches();
 
@@ -107,8 +107,10 @@ public class BackgroundTasks
         @Override
         protected Void doInBackground(CodewordSolver... codewordSolvers) {
             wordMatches.getMatches().clear();
+            wordLists.get(0).reset();
             wordLists.get(0).findCodewords(codewordSolvers[0],this);
             if (wordMatches.getCount()==0){
+                wordLists.get(1).reset();
                 //no words found try the pro word list
                 wordLists.get(1).findCodewords(codewordSolvers[0],this);
             }
