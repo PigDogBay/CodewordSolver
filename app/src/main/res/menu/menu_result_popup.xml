@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+      xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/menu_result_google_definition"
+          android:id="@+id/menu_result_google"/>
+    <item android:title="@string/menu_result_merriam_webster"
+          android:id="@+id/menu_result_merriam_webster"/>
+    <item android:title="@string/menu_result_dictionary_com"
+          android:id="@+id/menu_result_dictionary_com"/>
+    <item android:title="@string/menu_result_wikipedia"
+          android:id="@+id/menu_result_wikipedia"/>
+    <item android:title="@string/menu_result_livio_app"
+          android:id="@+id/menu_result_livio_app"/>
+    <item android:title="@string/menu_result_copy_to_clipboard"
+          android:id="@+id/menu_result_copy"/>
+
+</menu>

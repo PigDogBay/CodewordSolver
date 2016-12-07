@@ -1,6 +1,8 @@
 package com.pigdogbay.codewordsolver;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.pigdogbay.codewordsolver.controllers.ResultsFragment;
 import com.pigdogbay.codewordsolver.controllers.SquareAdapter;
 import com.pigdogbay.codewordsolver.model.BackgroundTasks;
 import com.pigdogbay.codewordsolver.model.MainModel;
@@ -52,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
                 search();
             }
         });
+
+        showResults();
+
     }
 
     private void search() {
@@ -108,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             letterPickerDialog.show(this, squareView);
         }
         //TO DO - refresh any squares in the query where the letter changes
+        redrawQuery();
     }
 
     private void analyzeResults(){
@@ -133,10 +140,30 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             case searching:
                 break;
             case finished:
-                analyzeResults();
                 break;
             case loadError:
                 break;
         }
     }
+
+    private void redrawQuery(){
+
+    }
+
+    private void replaceMainFragment(Fragment fragment, String tag) {
+        FragmentManager manager = getSupportFragmentManager();
+        Fragment f = manager.findFragmentById(R.id.main_fragment_container);
+        manager
+                .beginTransaction()
+                .replace(R.id.main_fragment_container, fragment, tag)
+                .commit();
+    }
+    private void showResults()
+    {
+        if (getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG)==null)
+        {
+            replaceMainFragment(new ResultsFragment(), ResultsFragment.TAG);
+        }
+    }
+
 }

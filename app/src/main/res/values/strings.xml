@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Codeword Solver</string>
+
+    <string name="results_status_searching">Searching&#8230;</string>
+    <string name="results_status_matches_found">Matches:</string>
+    <string name="menu_result_google_definition">Google Definition</string>
+    <string name="menu_result_merriam_webster">Merriam-Webster</string>
+    <string name="menu_result_dictionary_com">Dictionary.com</string>
+    <string name="menu_result_wikipedia">Wikipedia</string>
+    <string name="menu_result_copy_to_clipboard">Copy to Clipboard</string>
+    <string name="menu_result_livio_app">English Dictionary App</string>
+
 </resources>
