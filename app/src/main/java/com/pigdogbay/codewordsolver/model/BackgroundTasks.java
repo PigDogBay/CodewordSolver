@@ -107,11 +107,12 @@ public class BackgroundTasks
     {
         @Override
         protected void onPreExecute() {
+            //need to clear on UI thread otherwise recycler view will occassionally crash
+            wordMatches.getMatches().clear();
             stateObservable.setValue(States.searching);
         }
         @Override
         protected Void doInBackground(CodewordSolver... codewordSolvers) {
-            wordMatches.getMatches().clear();
             wordLists.get(0).reset();
             wordLists.get(0).findCodewords(codewordSolvers[0],this);
             if (wordMatches.getCount()==0){
