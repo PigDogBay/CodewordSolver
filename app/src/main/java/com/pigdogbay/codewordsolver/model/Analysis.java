@@ -30,8 +30,8 @@ public class Analysis {
     }
 
     public List<Integer> findCommonLetters(List<String> results){
-        int len = results.get(0).length();
         List<Integer> commonIndices = new ArrayList<>();
+        int len = results.get(0).length();
         for (int i=0; i<len; i++){
             if (sameChar(results,i)){
                 commonIndices.add(i);

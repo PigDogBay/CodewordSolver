@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class Query {
 
+    private static final int MAX_QUERY_LENGTH = 15;
     private List<Square> squares;
     private int[] frequency;
     private String[] patternChar;
@@ -78,7 +79,28 @@ public class Query {
                 squares.get(i).setLetter(String.valueOf(word.charAt(i)).toUpperCase());
             }
         }
+    }
 
+    public boolean containsLetters(){
+        for(Square s : squares){
+            if (!s.getLetter().equals("")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public enum Valid{
+        OK,
+        EMPTY,
+        TOO_LONG
+    }
+
+    public Valid validate(){
+        int len = squares.size();
+        if (len == 0) {return Valid.EMPTY;}
+        if (len> MAX_QUERY_LENGTH) {return Valid.TOO_LONG;}
+        return Valid.OK;
     }
 
 }

@@ -34,12 +34,21 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     private RecyclerView recyclerView;
     private KeyboardView keyboardView;
 
+    //Model getters
+    private Query getQuery(){return MainModel.get().getQuery();}
+    private SquareSet getSquareSet(){return MainModel.get().getSquareSet();}
+    private BackgroundTasks getBackgroundTasks() { return MainModel.get().getBackgroundTasks();}
+    private List<String> getResults() {return getBackgroundTasks().wordMatches.getMatches();}
+    private Analysis getAnalysis(){return MainModel.get().getAnalysis();}
+    private CodewordSolver getCodewordSolver(){return MainModel.get().getCodewordSolver();}
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<Square> squares = MainModel.get().getSquareSet().getSquares();
+        List<Square> squares = getSquareSet().getSquares();
         ViewGroup container = (ViewGroup) findViewById(R.id.keyboard_container);
         keyboardView = new KeyboardView(this,squares, this);
         container.addView(keyboardView);
@@ -48,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
-        squareAdapter = new SquareAdapter(MainModel.get().getQuery().getSquares());
+        squareAdapter = new SquareAdapter(getQuery().getSquares());
         recyclerView.setAdapter(squareAdapter);
 
         findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
@@ -63,36 +72,43 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     }
 
     private void search() {
-        MainModel main = MainModel.get();
-        BackgroundTasks backgroundTasks = main.getBackgroundTasks();
         //To Do check user has entered letters (use toast to tell user to type in squares)
-        if (backgroundTasks.isReady()) {
-            CodewordSolver codewordSolver = main.getCodewordSolver();
-            codewordSolver.parse(main.getQuery().getPattern());
-            codewordSolver.setFoundLetters(main.getSquareSet().getFoundLetters() );
-            backgroundTasks.search(codewordSolver);
+        switch (getQuery().validate()){
+
+            case OK:
+                break;
+            case EMPTY:
+                Toast.makeText(this,"Use keyboard to enter squares",Toast.LENGTH_LONG).show();
+                return;
+            case TOO_LONG:
+                Toast.makeText(this,"Too many squares, hold backspace to clear",Toast.LENGTH_LONG).show();
+                return;
+        }
+        if (getBackgroundTasks().isReady()) {
+            CodewordSolver codewordSolver = getCodewordSolver();
+            codewordSolver.parse(getQuery().getPattern());
+            codewordSolver.setFoundLetters(getSquareSet().getFoundLetters() );
+            getBackgroundTasks().search(codewordSolver);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        BackgroundTasks backgroundTasks = MainModel.get().getBackgroundTasks();
-        backgroundTasks.stateObservable.addObserver(this);
-        modelToView(backgroundTasks.stateObservable.getValue());
+        getBackgroundTasks().stateObservable.addObserver(this);
+        modelToView(getBackgroundTasks().stateObservable.getValue());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        BackgroundTasks backgroundTasks = MainModel.get().getBackgroundTasks();
-        backgroundTasks.stateObservable.removeObserver(this);
+        getBackgroundTasks().stateObservable.removeObserver(this);
     }
 
     @Override
     public void onSquareClicked(SquareView squareView) {
         Square square = squareView.getSquare();
-        Query query = MainModel.get().getQuery();
+        Query query = getQuery();
         if (square.getNumber()==Square.DELETE){
             query.delete();
         }
@@ -108,8 +124,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         if (squareView.getSquare().getNumber()==Square.DELETE)
         {
             //clear all
-            MainModel mainModel = MainModel.get();
-            mainModel.getQuery().clear();
+            getQuery().clear();
             squareAdapter.notifyDataSetChanged();
         } else {
             LetterPickerDialog letterPickerDialog = new LetterPickerDialog();
@@ -119,9 +134,50 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         redrawQuery();
     }
 
-    private void analyzeResults(){
-        Analysis analysis = MainModel.get().getAnalysis();
-        List<String> results = MainModel.get().getBackgroundTasks().wordMatches.getMatches();
+    @Override
+    public void update(ObservableProperty<BackgroundTasks.States> sender, BackgroundTasks.States update) {
+        modelToView(update);
+    }
+    private void modelToView(BackgroundTasks.States state ){
+        switch (state){
+            case uninitialized:
+                getBackgroundTasks().loadWordLists(this,new int[]{R.raw.standard,R.raw.pro});
+                break;
+            case loading:
+                break;
+            case ready:
+                break;
+            case searching:
+                break;
+            case analyzing:
+                analyzing();
+                getBackgroundTasks().analysisComplete();
+                break;
+            case finished:
+                break;
+            case loadError:
+                break;
+        }
+    }
+
+    private void analyzing(){
+        List<String> results = getBackgroundTasks().wordMatches.getMatches();
+        if (results.size()==0){
+
+            //issue warning to check query/check found letters
+            if (getQuery().containsLetters()){
+                Toast.makeText(this,"Check your squares and letters",Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(this,"Check your squares",Toast.LENGTH_LONG).show();
+            }
+
+            return;
+        }
+        analyzeResults(results);
+    }
+
+    private void analyzeResults(List<String> results){
+        Analysis analysis = getAnalysis();
         List<Square> newSquares = analysis.analyzeResults(results);
         if (newSquares.size()>0){
             String newLetters = "Adding ";
@@ -131,37 +187,11 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             Toast.makeText(this,newLetters,Toast.LENGTH_LONG).show();
             //ask user to add new squares
             //yes update query/squareset/keyboard
-            MainModel.get().getSquareSet().addNewSquares(newSquares);
+            getSquareSet().addNewSquares(newSquares);
             keyboardView.invalidate();
         }
     }
 
-    @Override
-    public void update(ObservableProperty<BackgroundTasks.States> sender, BackgroundTasks.States update) {
-        modelToView(update);
-    }
-    private void modelToView(BackgroundTasks.States state ){
-        switch (state){
-            case uninitialized:
-                MainModel.get().getBackgroundTasks().loadWordLists(this,new int[]{R.raw.standard,R.raw.pro});
-                break;
-            case loading:
-                break;
-            case ready:
-                break;
-            case searching:
-                break;
-            case analyzing:
-                analyzeResults();
-                MainModel.get().getBackgroundTasks().analysisComplete();
-                break;
-            case finished:
-                analyzeResults();
-                break;
-            case loadError:
-                break;
-        }
-    }
 
     private void redrawQuery(){
 
