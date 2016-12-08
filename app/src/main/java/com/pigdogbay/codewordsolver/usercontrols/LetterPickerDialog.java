@@ -25,7 +25,7 @@ public class LetterPickerDialog implements View.OnClickListener {
     private SquareView squareView;
     private AlertDialog dialog;
 
-    public void show(Context context, SquareView squareView, DialogInterface.OnDismissListener dismissListener){
+    public void show(Context context, SquareView squareView, DialogInterface.OnDismissListener dismissListener, DialogInterface.OnClickListener clearAllListener){
         this.squareView = squareView;
 
         Square square = squareView.getSquare();
@@ -39,6 +39,7 @@ public class LetterPickerDialog implements View.OnClickListener {
         builder.setTitle("Select Letter for "+square.getNumberString());
         builder.setView(lettersView);
         builder.setNegativeButton("Cancel", null);
+        builder.setNeutralButton("CLEAR ALL",clearAllListener);
         builder.setOnDismissListener(dismissListener);
         dialog = builder.create();
         dialog.show();

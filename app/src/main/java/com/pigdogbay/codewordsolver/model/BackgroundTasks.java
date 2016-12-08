@@ -143,6 +143,12 @@ public class BackgroundTasks
         }
     }
 
+    public void reset(){
+        if (stateObservable.getValue()==States.finished) {
+            wordMatches.getMatches().clear();
+            stateObservable.setValue(States.ready);
+        }
+    }
 
 
 }

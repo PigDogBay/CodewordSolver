@@ -35,12 +35,29 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     private KeyboardView keyboardView;
 
     //Model getters
-    private Query getQuery(){return MainModel.get().getQuery();}
-    private SquareSet getSquareSet(){return MainModel.get().getSquareSet();}
-    private BackgroundTasks getBackgroundTasks() { return MainModel.get().getBackgroundTasks();}
-    private List<String> getResults() {return getBackgroundTasks().wordMatches.getMatches();}
-    private Analysis getAnalysis(){return MainModel.get().getAnalysis();}
-    private CodewordSolver getCodewordSolver(){return MainModel.get().getCodewordSolver();}
+    private Query getQuery() {
+        return MainModel.get().getQuery();
+    }
+
+    private SquareSet getSquareSet() {
+        return MainModel.get().getSquareSet();
+    }
+
+    private BackgroundTasks getBackgroundTasks() {
+        return MainModel.get().getBackgroundTasks();
+    }
+
+    private List<String> getResults() {
+        return getBackgroundTasks().wordMatches.getMatches();
+    }
+
+    private Analysis getAnalysis() {
+        return MainModel.get().getAnalysis();
+    }
+
+    private CodewordSolver getCodewordSolver() {
+        return MainModel.get().getCodewordSolver();
+    }
 
 
     @Override
@@ -50,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
 
         List<Square> squares = getSquareSet().getSquares();
         ViewGroup container = (ViewGroup) findViewById(R.id.keyboard_container);
-        keyboardView = new KeyboardView(this,squares, this);
+        keyboardView = new KeyboardView(this, squares, this);
         container.addView(keyboardView);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -73,21 +90,21 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
 
     private void search() {
         //To Do check user has entered letters (use toast to tell user to type in squares)
-        switch (getQuery().validate()){
+        switch (getQuery().validate()) {
 
             case OK:
                 break;
             case EMPTY:
-                Toast.makeText(this,"Use keyboard to enter squares",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Use keyboard to enter squares", Toast.LENGTH_LONG).show();
                 return;
             case TOO_LONG:
-                Toast.makeText(this,"Too many squares, hold backspace to clear",Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Too many squares, hold backspace to clear", Toast.LENGTH_LONG).show();
                 return;
         }
         if (getBackgroundTasks().isReady()) {
             CodewordSolver codewordSolver = getCodewordSolver();
             codewordSolver.parse(getQuery().getPattern());
-            codewordSolver.setFoundLetters(getSquareSet().getFoundLetters() );
+            codewordSolver.setFoundLetters(getSquareSet().getFoundLetters());
             getBackgroundTasks().search(codewordSolver);
         }
     }
@@ -109,31 +126,34 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     public void onSquareClicked(SquareView squareView) {
         Square square = squareView.getSquare();
         Query query = getQuery();
-        if (square.getNumber()==Square.DELETE){
+        if (square.getNumber() == Square.DELETE) {
             query.delete();
-        }
-        else {
+        } else {
             query.add(square);
         }
         squareAdapter.notifyDataSetChanged();
-        recyclerView.scrollToPosition(query.getSquares().size()-1);
+        recyclerView.scrollToPosition(query.getSquares().size() - 1);
     }
 
     @Override
     public void onSquareLongClicked(SquareView squareView) {
-        if (squareView.getSquare().getNumber()==Square.DELETE)
-        {
+        if (squareView.getSquare().getNumber() == Square.DELETE) {
             //clear all
             getQuery().clear();
             squareAdapter.notifyDataSetChanged();
         } else {
             LetterPickerDialog letterPickerDialog = new LetterPickerDialog();
-            letterPickerDialog.show(this, squareView, new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    squareAdapter.notifyDataSetChanged();
-                }
-            });
+            letterPickerDialog.show(this, squareView,
+                    new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {                            squareAdapter.notifyDataSetChanged();                        }
+                    },
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            reset();
+                        }
+                    });
         }
     }
 
@@ -141,10 +161,11 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     public void update(ObservableProperty<BackgroundTasks.States> sender, BackgroundTasks.States update) {
         modelToView(update);
     }
-    private void modelToView(BackgroundTasks.States state ){
-        switch (state){
+
+    private void modelToView(BackgroundTasks.States state) {
+        switch (state) {
             case uninitialized:
-                getBackgroundTasks().loadWordLists(this,new int[]{R.raw.standard,R.raw.pro});
+                getBackgroundTasks().loadWordLists(this, new int[]{R.raw.standard, R.raw.pro});
                 break;
             case loading:
                 break;
@@ -163,15 +184,15 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         }
     }
 
-    private void analyzing(){
+    private void analyzing() {
         List<String> results = getBackgroundTasks().wordMatches.getMatches();
-        if (results.size()==0){
+        if (results.size() == 0) {
 
             //issue warning to check query/check found letters
-            if (getQuery().containsLetters()){
-                Toast.makeText(this,"Check your squares and letters",Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(this,"Check your squares",Toast.LENGTH_LONG).show();
+            if (getQuery().containsLetters()) {
+                Toast.makeText(this, "Check your squares and letters", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Check your squares", Toast.LENGTH_LONG).show();
             }
 
             return;
@@ -179,15 +200,15 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         analyzeResults(results);
     }
 
-    private void analyzeResults(List<String> results){
+    private void analyzeResults(List<String> results) {
         Analysis analysis = getAnalysis();
         List<Square> newSquares = analysis.analyzeResults(results);
-        if (newSquares.size()>0){
+        if (newSquares.size() > 0) {
             String newLetters = "Adding ";
-            for (Square s : newSquares){
-                newLetters = newLetters+s.getLetter();
+            for (Square s : newSquares) {
+                newLetters = newLetters + s.getLetter();
             }
-            Toast.makeText(this,newLetters,Toast.LENGTH_LONG).show();
+            Toast.makeText(this, newLetters, Toast.LENGTH_LONG).show();
             //ask user to add new squares
             //yes update query/squareset/keyboard
             getSquareSet().addNewSquares(newSquares);
@@ -204,20 +225,28 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
                 .replace(R.id.main_fragment_container, fragment, tag)
                 .commit();
     }
-    private void showResults()
-    {
-        if (getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG)==null)
-        {
+
+    private void showResults() {
+        if (getSupportFragmentManager().findFragmentByTag(ResultsFragment.TAG) == null) {
             replaceMainFragment(new ResultsFragment(), ResultsFragment.TAG);
         }
     }
 
-    public void addResult(String word){
+    public void addResult(String word) {
         word = word.toUpperCase();
         List<Square> newSquares = getQuery().createNewSquares(word);
         getSquareSet().addNewSquares(newSquares);
         keyboardView.invalidate();
         squareAdapter.notifyDataSetChanged();
+    }
+
+    private void reset() {
+        getQuery().clear();
+        getSquareSet().reset();
+        getBackgroundTasks().reset();
+        keyboardView.invalidate();
+        squareAdapter.notifyDataSetChanged();
+
     }
 
 }
