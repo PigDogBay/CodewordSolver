@@ -11,6 +11,8 @@ public class SquareSet
 {
     private Square[] set = new Square[27];
 
+    public static String[] ALPHABET = new String[]{"A","B","C","D","E","F","G","H","I","J","K","L","M", "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
+
     public SquareSet(){
         for (int i = 0; i<26; i++){
             set[i] = new Square(i+1,"");
@@ -49,7 +51,7 @@ public class SquareSet
         return found.toLowerCase();
     }
 
-    boolean contains(String letter){
+    public boolean contains(String letter){
         for (Square s : set){
             if (s.getLetter().equals(letter)){
                 return true;

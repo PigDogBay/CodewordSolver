@@ -27,7 +27,6 @@
     </style>
     <style name="LetterPickerButtonTheme" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/colorAccent</item>
-        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="LetterPickerButton" parent="@style/Widget.AppCompat.Button.Borderless">
@@ -35,6 +34,7 @@
         <item name="android:width">0dp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@drawable/letter_picker_selector</item>
     </style>
 
     <style name="ButtonTheme" parent="Theme.AppCompat.Light">

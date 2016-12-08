@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.pigdogbay.codewordsolver.R;
+import com.pigdogbay.codewordsolver.model.MainModel;
 import com.pigdogbay.codewordsolver.model.Square;
+import com.pigdogbay.codewordsolver.model.SquareSet;
 
 /**
  * Created by Mark on 05/12/2016.
@@ -30,9 +32,7 @@ public class LetterPickerDialog implements View.OnClickListener {
 
         Square square = squareView.getSquare();
         View lettersView = View.inflate(context, R.layout.letter_picker,null);
-        for (int id : buttonIds){
-            lettersView.findViewById(id).setOnClickListener(this);
-        }
+        setUpButtons(lettersView);
 
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.AppCompatAlertDialogStyle);
@@ -43,6 +43,22 @@ public class LetterPickerDialog implements View.OnClickListener {
         builder.setOnDismissListener(dismissListener);
         dialog = builder.create();
         dialog.show();
+    }
+
+    private void setUpButtons(View root){
+        SquareSet squareSet = MainModel.get().getSquareSet();
+        //disable any letter that have already been found
+        for (int i=0; i<SquareSet.ALPHABET.length; i++){
+            int buttonId = buttonIds[i];
+            View button = root.findViewById(buttonId);
+            if (squareSet.contains(SquareSet.ALPHABET[i])){
+                button.setEnabled(false);
+            } else{
+                button.setOnClickListener(this);
+            }
+        }
+        //empty letter
+        root.findViewById(R.id.lpNone).setOnClickListener(this);
     }
 
     @Override
