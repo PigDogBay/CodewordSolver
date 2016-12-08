@@ -1,16 +1,15 @@
 package com.pigdogbay.codewordsolver.usercontrols;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
 import com.pigdogbay.codewordsolver.R;
 import com.pigdogbay.codewordsolver.model.Square;
-
-import java.util.Locale;
 
 /**
  * Created by Mark on 05/12/2016.
@@ -26,12 +25,11 @@ public class LetterPickerDialog implements View.OnClickListener {
     private SquareView squareView;
     private AlertDialog dialog;
 
-    public void show(Context context, SquareView squareView){
+    public void show(Context context, SquareView squareView, DialogInterface.OnDismissListener dismissListener){
         this.squareView = squareView;
 
         Square square = squareView.getSquare();
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View lettersView = layoutInflater.inflate(R.layout.letter_picker,null);
+        View lettersView = View.inflate(context, R.layout.letter_picker,null);
         for (int id : buttonIds){
             lettersView.findViewById(id).setOnClickListener(this);
         }
@@ -41,6 +39,7 @@ public class LetterPickerDialog implements View.OnClickListener {
         builder.setTitle("Select Letter for "+square.getNumberString());
         builder.setView(lettersView);
         builder.setNegativeButton("Cancel", null);
+        builder.setOnDismissListener(dismissListener);
         dialog = builder.create();
         dialog.show();
     }
@@ -54,7 +53,7 @@ public class LetterPickerDialog implements View.OnClickListener {
             String letter = ((Button) view).getText().toString();
             squareView.getSquare().setLetter(letter);
         }
-        dialog.cancel();
+        dialog.dismiss();
         squareView.invalidate();
     }
 }

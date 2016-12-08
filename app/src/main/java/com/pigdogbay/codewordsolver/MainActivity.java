@@ -1,5 +1,6 @@
 package com.pigdogbay.codewordsolver;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -127,10 +128,13 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             squareAdapter.notifyDataSetChanged();
         } else {
             LetterPickerDialog letterPickerDialog = new LetterPickerDialog();
-            letterPickerDialog.show(this, squareView);
+            letterPickerDialog.show(this, squareView, new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    squareAdapter.notifyDataSetChanged();
+                }
+            });
         }
-        //TO DO - refresh any squares in the query where the letter changes
-        redrawQuery();
     }
 
     @Override
@@ -188,12 +192,8 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             //yes update query/squareset/keyboard
             getSquareSet().addNewSquares(newSquares);
             keyboardView.invalidate();
+            squareAdapter.notifyDataSetChanged();
         }
-    }
-
-
-    private void redrawQuery(){
-
     }
 
     private void replaceMainFragment(Fragment fragment, String tag) {
