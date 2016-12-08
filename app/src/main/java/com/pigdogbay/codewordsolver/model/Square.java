@@ -2,6 +2,7 @@ package com.pigdogbay.codewordsolver.model;
 
 /**
  * Created by Mark on 05/12/2016.
+ * Data model representing a square on a codeword grid
  */
 public class Square
 {
@@ -13,6 +14,10 @@ public class Square
     public Square(int number, String letter){
         setNumber(number);
         setLetter(letter);
+    }
+    public Square(int number, char letter){
+        setNumber(number);
+        setLetter(String.valueOf(letter));
     }
 
     public String getLetter() {
@@ -27,7 +32,7 @@ public class Square
         return number;
     }
 
-    public void setNumber(int number) {
+    private void setNumber(int number) {
         this.number = number;
         this.numberString = String.valueOf(number);
     }

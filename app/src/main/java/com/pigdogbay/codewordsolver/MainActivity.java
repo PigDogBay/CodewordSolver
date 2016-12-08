@@ -213,7 +213,11 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     }
 
     public void addResult(String word){
-
+        word = word.toUpperCase();
+        List<Square> newSquares = getQuery().createNewSquares(word);
+        getSquareSet().addNewSquares(newSquares);
+        keyboardView.invalidate();
+        squareAdapter.notifyDataSetChanged();
     }
 
 }

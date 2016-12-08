@@ -72,15 +72,6 @@ public class Query {
         return pattern.toLowerCase();
     }
 
-    public void analyze(List<String> results){
-        if (results.size()==1){
-            String word = results.get(0);
-            for (int i=0; i<word.length();i++){
-                squares.get(i).setLetter(String.valueOf(word.charAt(i)).toUpperCase());
-            }
-        }
-    }
-
     public boolean containsLetters(){
         for(Square s : squares){
             if (!s.getLetter().equals("")){
@@ -88,6 +79,18 @@ public class Query {
             }
         }
         return false;
+    }
+
+    public List<Square> createNewSquares(String word) {
+        List<Square> newSquares = new ArrayList<>();
+        for (int i=0; i<word.length();i++){
+            newSquares.add(
+                    new Square(
+                            squares.get(i).getNumber(),
+                            word.charAt(i)
+                    ));
+        }
+        return newSquares;
     }
 
     public enum Valid{
