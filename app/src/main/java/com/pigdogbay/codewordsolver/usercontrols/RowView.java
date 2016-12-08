@@ -1,6 +1,7 @@
 package com.pigdogbay.codewordsolver.usercontrols;
 
 import android.content.Context;
+import android.content.pm.LabeledIntent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.ViewGroup;
@@ -20,10 +21,10 @@ import static android.R.attr.x;
  */
 public class RowView extends LinearLayout {
 
-
+    LinearLayout.LayoutParams layoutParams;
     public RowView(Context context, List<Square> squares, onSquareClickListener squareClickListener) {
         super(context);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.weight = 1.0f;
         layoutParams.setMargins(0, 0, 2, 0);
 
@@ -31,15 +32,27 @@ public class RowView extends LinearLayout {
             SquareView squareView = new SquareView(context, squareClickListener);
             squareView.setSquare(s);
             squareView.setLayoutParams(layoutParams);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                Drawable background = getContext().getDrawable(R.drawable.keyboard_selector);
-                squareView.setBackground(background);
-            } else {
-                squareView.setBackgroundColor(Color.WHITE);
-            }
+            setBackground(squareView);
             addView(squareView);
         }
     }
+
+    private void setBackground(SquareView squareView) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Drawable background = getContext().getDrawable(R.drawable.keyboard_selector);
+            squareView.setBackground(background);
+        } else {
+            squareView.setBackgroundColor(Color.WHITE);
+        }
+    }
+
+    public void addDummyKey(Context context){
+        SquareView squareView =new SquareView(context, null);
+        squareView.setLayoutParams(layoutParams);
+        setBackground(squareView);
+        addView(squareView);
+    }
+
     @Override
     public void invalidate() {
         super.invalidate();

@@ -42,9 +42,10 @@ public class KeyboardView extends LinearLayout{
         } else {
             //Landscape
             RowView rowView = new RowView(context, squares.subList(0, 13),squareClickListener);
+            rowView.addDummyKey(context);
             rowView.setLayoutParams(layoutParams);
             addView(rowView);
-            rowView = new RowView(context, squares.subList(13, 26),squareClickListener);
+            rowView = new RowView(context, squares.subList(13, 27),squareClickListener);
             rowView.setLayoutParams(layoutParams);
             addView(rowView);
         }

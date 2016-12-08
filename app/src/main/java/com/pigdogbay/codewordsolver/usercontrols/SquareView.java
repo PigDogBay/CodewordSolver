@@ -115,11 +115,14 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (square.getNumber()!=Square.DELETE){
+        if (square==null){
+            //draw blank
+        }
+        else if ( square.getNumber()==Square.DELETE){
+            deleteImg.draw(canvas);
+        }else {
             canvas.drawText(square.getLetter(), letterX, letterY, letterPaint);
             canvas.drawText(square.getNumberString(), numberX, numberY, numberPaint);
-        }else {
-            deleteImg.draw(canvas);
         }
     }
 
