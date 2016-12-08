@@ -25,6 +25,7 @@ public class SquareAdapter extends RecyclerView.Adapter<SquareAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         SquareView squareView = new SquareView(parent.getContext(),null);
+        squareView.setShowQuestionMarkIfEmpty(true);
         return new ViewHolder(squareView);
     }
 
@@ -38,15 +39,15 @@ public class SquareAdapter extends RecyclerView.Adapter<SquareAdapter.ViewHolder
         return squares.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         private final SquareView squareView;
 
-        public ViewHolder(SquareView itemView) {
+        ViewHolder(SquareView itemView) {
             super(itemView);
             this.squareView = itemView;
         }
 
-        public void bindItem(Square square){
+        void bindItem(Square square){
             squareView.setSquare(square);
             //squareView.invalidate();
         }

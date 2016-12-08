@@ -24,6 +24,14 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
     private int preferredWidth, preferredHeight;
     private Square square;
     private Drawable deleteImg;
+    private boolean showQuestionMarkIfEmpty = false;
+
+    public boolean isShowQuestionMarkIfEmpty() {
+        return showQuestionMarkIfEmpty;
+    }
+    public void setShowQuestionMarkIfEmpty(boolean showQuestionMarkIfEmpty) {
+        this.showQuestionMarkIfEmpty = showQuestionMarkIfEmpty;
+    }
 
     public Square getSquare() {
         return square;
@@ -118,10 +126,16 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
         if (square==null){
             //draw blank
         }
-        else if ( square.getNumber()==Square.DELETE){
+        else if ( square.getNumber()==Square.DELETE) {
             deleteImg.draw(canvas);
-        }else {
+        }
+        else if (!square.getLetter().equals("") ) {
+            canvas.drawText(square.getNumberString(), numberX, numberY, numberPaint);
             canvas.drawText(square.getLetter(), letterX, letterY, letterPaint);
+        } else if (showQuestionMarkIfEmpty) {
+            canvas.drawText(square.getNumberString(), numberX, numberY, numberPaint);
+            canvas.drawText("?", letterX, letterY, letterPaint);
+        } else {
             canvas.drawText(square.getNumberString(), numberX, numberY, numberPaint);
         }
     }
