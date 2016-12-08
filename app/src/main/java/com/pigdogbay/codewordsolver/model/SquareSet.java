@@ -16,7 +16,7 @@ public class SquareSet
             set[i] = new Square(i+1,"");
         }
         //delete square
-        set[26] = new Square(Square.DELETE,"x");
+        set[26] = new Square(Square.DELETE,"");
     }
 
     public void reset(){
@@ -46,7 +46,7 @@ public class SquareSet
         for (Square s : set){
             found = found+s.getLetter();
         }
-        return found;
+        return found.toLowerCase();
     }
 
     boolean contains(String letter){
