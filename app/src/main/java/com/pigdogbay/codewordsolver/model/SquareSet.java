@@ -63,7 +63,9 @@ public class SquareSet
    public void addNewSquares(List<Square> newSquares)
    {
        for (Square square : newSquares){
-           getSquare(square.getNumber()).setLetter(square.getLetter());
+           if (!contains(square.getLetter())) {
+               getSquare(square.getNumber()).setLetter(square.getLetter());
+           }
        }
    }
 }

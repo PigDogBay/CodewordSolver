@@ -106,4 +106,20 @@ public class Query {
         return Valid.OK;
     }
 
+    @Override
+    public String toString() {
+        String query = "";
+        for (Square s : squares){
+            query = query+"," + s.toString();
+        }
+        return query;
+    }
+
+    public Query copy(){
+        Query query = new Query();
+        for (Square s : squares){
+            query.add(s);
+        }
+        return query;
+    }
 }

@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     private SquareAdapter squareAdapter;
     private RecyclerView recyclerView;
     private KeyboardView keyboardView;
+    //Need to clone the query before a search, as user could edit the query afterwards and then press +
+    private Query queryCopy;
 
     //Model getters
     private Query getQuery() {
@@ -102,6 +104,8 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
                 return;
         }
         if (getBackgroundTasks().isReady()) {
+            //clone the query incase user needs to add a word to the letters
+            queryCopy = getQuery().copy();
             CodewordSolver codewordSolver = getCodewordSolver();
             codewordSolver.parse(getQuery().getPattern());
             codewordSolver.setFoundLetters(getSquareSet().getFoundLetters());
@@ -234,7 +238,8 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
 
     public void addResult(String word) {
         word = word.toUpperCase();
-        List<Square> newSquares = getQuery().createNewSquares(word);
+        //use cloned searchQuery as user may have altered the query
+        List<Square> newSquares = queryCopy.createNewSquares(word);
         getSquareSet().addNewSquares(newSquares);
         keyboardView.invalidate();
         squareAdapter.notifyDataSetChanged();
@@ -246,7 +251,6 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         getBackgroundTasks().reset();
         keyboardView.invalidate();
         squareAdapter.notifyDataSetChanged();
-
     }
 
 }
