@@ -123,7 +123,6 @@ public class BackgroundTasks
         }
         @Override
         protected void onProgressUpdate(String... values) {
-            Log.v("mpdb",values[0]);
             //The array will be used in the views array adapter
             //this means the array must be updated only from the UI thread
             wordMatches.getMatches().add(values[0]);
