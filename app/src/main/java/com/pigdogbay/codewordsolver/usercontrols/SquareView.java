@@ -6,9 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.pigdogbay.codewordsolver.R;
 import com.pigdogbay.codewordsolver.model.Square;
@@ -59,7 +59,8 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
             setOnClickListener(this);
             setOnLongClickListener(this);
         }
-        deleteImg = getResources().getDrawable(R.drawable.ic_backspace_black_24dp);
+        //image is a vector
+        deleteImg =  AppCompatDrawableManager.get().getDrawable(getContext(),R.drawable.ic_backspace_black_24dp);
     }
 
     @Override
