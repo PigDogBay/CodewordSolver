@@ -9,5 +9,8 @@
     <string name="menu_result_wikipedia">Wikipedia</string>
     <string name="menu_result_copy_to_clipboard">Copy to Clipboard</string>
     <string name="menu_result_livio_app">English Dictionary App</string>
+    <string name="feedback_subject">Codeword Solver v1.00 Feedback</string>
+    <string name="feedback_body">Your feedback is most welcome\n *Report Bugs\n *Suggest new features\n *Ask for help\n\n</string>
+    <string name="web_error">No Web</string>
 
 </resources>

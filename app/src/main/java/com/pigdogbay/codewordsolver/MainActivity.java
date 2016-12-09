@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.pigdogbay.codewordsolver.controllers.HelpFragment;
 import com.pigdogbay.codewordsolver.controllers.ResultsFragment;
 import com.pigdogbay.codewordsolver.controllers.SquareAdapter;
 import com.pigdogbay.codewordsolver.model.Analysis;
@@ -28,7 +29,7 @@ import com.pigdogbay.lib.utils.ObservableProperty;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements onSquareClickListener, ObservableProperty.PropertyChangedObserver<BackgroundTasks.States> {
+public class MainActivity extends AppCompatActivity implements onSquareClickListener, ObservableProperty.PropertyChangedObserver<BackgroundTasks.States>, HelpFragment.OnFragmentInteractionListener {
 
     private SquareAdapter squareAdapter;
     private RecyclerView recyclerView;
@@ -86,8 +87,10 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             }
         });
 
-        showResults();
-
+        Fragment fragment =getSupportFragmentManager().findFragmentById(R.id.main_fragment_container);
+        if (fragment==null){
+            showTips();
+        }
     }
 
     private void search() {
@@ -109,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             CodewordSolver codewordSolver = getCodewordSolver();
             codewordSolver.parse(getQuery().getPattern());
             codewordSolver.setFoundLetters(getSquareSet().getFoundLetters());
+            showResults();
             getBackgroundTasks().search(codewordSolver);
         }
     }
@@ -145,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             //clear all
             getQuery().clear();
             squareAdapter.notifyDataSetChanged();
+            showTips();
         } else {
             LetterPickerDialog letterPickerDialog = new LetterPickerDialog();
             letterPickerDialog.show(this, squareView,
@@ -235,6 +240,11 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             replaceMainFragment(new ResultsFragment(), ResultsFragment.TAG);
         }
     }
+    private void showTips() {
+        if (getSupportFragmentManager().findFragmentByTag(HelpFragment.TAG) == null) {
+            replaceMainFragment(new HelpFragment(), HelpFragment.TAG);
+        }
+    }
 
     public void addResult(String word) {
         word = word.toUpperCase();
@@ -253,4 +263,11 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         squareAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Help Fragment Listener
+     */
+    @Override
+    public void onReset() {
+        reset();
+    }
 }

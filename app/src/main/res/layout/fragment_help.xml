@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.pigdogbay.codewordsolver.controllers.HelpFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Codeword Solver"
+            android:textSize="32sp"
+            />
+
+        <TextView
+            android:drawableLeft="@drawable/lightbulb_on"
+            style="@style/tips_text"
+            android:text="Use the keyboard below to enter the squares of a word"/>
+        <TextView
+            android:drawableLeft="@drawable/lightbulb_on"
+            style="@style/tips_text"
+            android:text="Touch and hold a key to enter a known letter"/>
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            style="@style/tips_text"
+            android:text="Press the search icon to find matching words."/>
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:drawablePadding="30dp"
+            android:drawableLeft="@drawable/ic_add_black_24dp"
+            style="@style/tips_text"
+            android:text="Press + to add a result's letters to the keyboard"/>
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:drawablePadding="30dp"
+            android:drawableLeft="@drawable/ic_backspace_black_24dp"
+            style="@style/tips_text"
+            android:text="Hold backspace to delete all"/>
+        <TextView
+            android:drawableLeft="@drawable/book_blue_view"
+            style="@style/tips_text"
+            android:text="Touch and hold a result to look up its definition"/>
+
+        <Button
+            android:id="@+id/help_feedback_button"
+            android:theme="@style/MaterialButton"
+            style="@style/tips_button"
+            android:drawableLeft="@drawable/heart"
+            android:text="Send Feedback to improve the app"/>
+
+        <Button
+            android:id="@+id/help_rate_button"
+            android:theme="@style/MaterialButton"
+            style="@style/tips_button"
+            android:drawableLeft="@drawable/heart"
+            android:text="help out and rate the app"/>
+
+        <Button
+            android:id="@+id/help_reset_button"
+            android:theme="@style/MaterialButton"
+            style="@style/tips_button"
+            android:drawableLeft="@drawable/gear"
+            android:text="CLEAR LETTERS"/>
+
+    </LinearLayout>
+
+</ScrollView>
