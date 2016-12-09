@@ -27,6 +27,8 @@ import com.pigdogbay.codewordsolver.usercontrols.onSquareClickListener;
 import com.pigdogbay.lib.utils.CodewordSolver;
 import com.pigdogbay.lib.utils.ObservableProperty;
 
+import org.codechimp.apprater.AppRater;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements onSquareClickListener, ObservableProperty.PropertyChangedObserver<BackgroundTasks.States>, HelpFragment.OnFragmentInteractionListener {
@@ -91,6 +93,12 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         if (fragment==null){
             showTips();
         }
+        checkAppRate();
+    }
+    private void checkAppRate() {
+        try {
+            AppRater.app_launched(this);
+        }catch (Exception e){e.printStackTrace();}
     }
 
     private void search() {
