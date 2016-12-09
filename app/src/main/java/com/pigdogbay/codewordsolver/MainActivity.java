@@ -129,6 +129,23 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         super.onPause();
         getBackgroundTasks().stateObservable.removeObserver(this);
     }
+    @Override
+    public void onBackPressed() {
+        Fragment f= getSupportFragmentManager().findFragmentById(R.id.main_fragment_container);
+        String tag="";
+        if (f!=null){
+            tag = f.getTag();
+        }
+        if (HelpFragment.TAG.equals(tag))
+        {
+            super.onBackPressed();
+        }
+        else
+        {
+            showTips();
+        }
+
+    }
 
     @Override
     public void onSquareClicked(SquareView squareView) {
@@ -149,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             //clear all
             getQuery().clear();
             squareAdapter.notifyDataSetChanged();
-            showTips();
         } else {
             LetterPickerDialog letterPickerDialog = new LetterPickerDialog();
             letterPickerDialog.show(this, squareView,
