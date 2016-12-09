@@ -1,11 +1,12 @@
 package com.pigdogbay.codewordsolver;
 
 import android.content.DialogInterface;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -29,8 +30,6 @@ import com.pigdogbay.codewordsolver.usercontrols.onSquareClickListener;
 import com.pigdogbay.lib.utils.CodewordSolver;
 import com.pigdogbay.lib.utils.ObservableProperty;
 
-import org.codechimp.apprater.AppRater;
-
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements onSquareClickListener, ObservableProperty.PropertyChangedObserver<BackgroundTasks.States>, HelpFragment.OnFragmentInteractionListener {
@@ -46,23 +45,18 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     private Query getQuery() {
         return MainModel.get().getQuery();
     }
-
     private SquareSet getSquareSet() {
         return MainModel.get().getSquareSet();
     }
-
     private BackgroundTasks getBackgroundTasks() {
         return MainModel.get().getBackgroundTasks();
     }
-
     private List<String> getResults() {
         return getBackgroundTasks().wordMatches.getMatches();
     }
-
     private Analysis getAnalysis() {
         return MainModel.get().getAnalysis();
     }
-
     private CodewordSolver getCodewordSolver() {
         return MainModel.get().getCodewordSolver();
     }
@@ -100,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     }
     private void checkAppRate() {
         try {
-            AppRater.app_launched(this);
+            new com.pigdogbay.lib.apprate.AppRate(this)
+                    .setMinDaysUntilPrompt(7).setMinLaunchesUntilPrompt(5).init();
         }catch (Exception e){e.printStackTrace();}
     }
 
