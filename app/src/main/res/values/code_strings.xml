@@ -3,5 +3,6 @@
     <string translatable="false" name="market_livio_dictionary_app">market://details?id=livio.pack.lang.en_US</string>
     <string translatable="false" name="email">pigdogbay@yahoo.co.uk</string>
     <string translatable="false" name="market_app_url">market://details?id=com.pigdogbay.codewordsolver</string>
+    <string translatable="false" name="pref_key_found_letters">found_letters</string>
 
 </resources>

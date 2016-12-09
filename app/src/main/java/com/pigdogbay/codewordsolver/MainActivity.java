@@ -29,6 +29,7 @@ import com.pigdogbay.codewordsolver.usercontrols.SquareView;
 import com.pigdogbay.codewordsolver.usercontrols.onSquareClickListener;
 import com.pigdogbay.lib.utils.CodewordSolver;
 import com.pigdogbay.lib.utils.ObservableProperty;
+import com.pigdogbay.lib.utils.PreferencesHelper;
 
 import java.util.List;
 
@@ -128,12 +129,22 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         super.onResume();
         getBackgroundTasks().stateObservable.addObserver(this);
         modelToView(getBackgroundTasks().stateObservable.getValue());
+
+        //Store letters
+        PreferencesHelper preferencesHelper = new PreferencesHelper(this);
+        String flat = preferencesHelper.getString(R.string.pref_key_found_letters,"");
+        getSquareSet().unflatten(flat);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         getBackgroundTasks().stateObservable.removeObserver(this);
+
+        //Restore letters
+        PreferencesHelper preferencesHelper = new PreferencesHelper(this);
+        String flat = getSquareSet().flatten();
+        preferencesHelper.setString(R.string.pref_key_found_letters,flat);
     }
     @Override
     public void onBackPressed() {
