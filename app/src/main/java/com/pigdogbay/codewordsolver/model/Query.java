@@ -93,6 +93,10 @@ public class Query {
         return newSquares;
     }
 
+    public int getCount() {
+        return squares.size();
+    }
+
     public enum Valid{
         OK,
         EMPTY,

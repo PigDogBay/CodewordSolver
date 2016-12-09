@@ -1,6 +1,7 @@
 package com.pigdogbay.codewordsolver;
 
 import android.content.DialogInterface;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pigdogbay.codewordsolver.controllers.HelpFragment;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     private KeyboardView keyboardView;
     //Need to clone the query before a search, as user could edit the query afterwards and then press +
     private Query queryCopy;
+    private TextView searchHintText;
 
     //Model getters
     private Query getQuery() {
@@ -81,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         recyclerView.setLayoutManager(layoutManager);
         squareAdapter = new SquareAdapter(getQuery().getSquares());
         recyclerView.setAdapter(squareAdapter);
-
+        searchHintText = (TextView) findViewById(R.id.search_hint_text);
         findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -164,6 +167,8 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         } else {
             query.add(square);
         }
+        int hintVisibility = query.getCount()==0 ? View.VISIBLE : View.INVISIBLE;
+        searchHintText.setVisibility(hintVisibility);
         squareAdapter.notifyDataSetChanged();
         recyclerView.scrollToPosition(query.getSquares().size() - 1);
     }
@@ -173,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         if (squareView.getSquare().getNumber() == Square.DELETE) {
             //clear all
             getQuery().clear();
+            searchHintText.setVisibility(View.VISIBLE);
             squareAdapter.notifyDataSetChanged();
         } else {
             LetterPickerDialog letterPickerDialog = new LetterPickerDialog();
@@ -285,6 +291,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         getBackgroundTasks().reset();
         keyboardView.invalidate();
         squareAdapter.notifyDataSetChanged();
+        searchHintText.setVisibility(View.VISIBLE);
     }
 
     /**
