@@ -130,10 +130,14 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         getBackgroundTasks().stateObservable.addObserver(this);
         modelToView(getBackgroundTasks().stateObservable.getValue());
 
-        //Store letters
+        //Restore letters
         PreferencesHelper preferencesHelper = new PreferencesHelper(this);
         String flat = preferencesHelper.getString(R.string.pref_key_found_letters,"");
         getSquareSet().unflatten(flat);
+
+        int hintVisibility = getQuery().getCount()==0 ? View.VISIBLE : View.INVISIBLE;
+        searchHintText.setVisibility(hintVisibility);
+
     }
 
     @Override
@@ -141,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         super.onPause();
         getBackgroundTasks().stateObservable.removeObserver(this);
 
-        //Restore letters
+        //Store letters
         PreferencesHelper preferencesHelper = new PreferencesHelper(this);
         String flat = getSquareSet().flatten();
         preferencesHelper.setString(R.string.pref_key_found_letters,flat);
@@ -208,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     }
 
     private void modelToView(BackgroundTasks.States state) {
+
         switch (state) {
             case uninitialized:
                 getBackgroundTasks().loadWordLists(this, new int[]{R.raw.standard, R.raw.pro});
