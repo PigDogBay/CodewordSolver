@@ -34,7 +34,6 @@ public class LetterPickerDialog implements View.OnClickListener {
         View lettersView = View.inflate(context, R.layout.letter_picker,null);
         setUpButtons(lettersView);
 
-        int s = R.style.AppCompatAlertDialogStyle;
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(context, R.style.letter_picker_dialog);
         builder.setTitle("Select Letter for "+square.getNumberString());

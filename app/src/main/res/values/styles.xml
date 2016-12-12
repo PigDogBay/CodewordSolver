@@ -66,6 +66,6 @@
 
     <style name="letter_picker_dialog" parent="AppCompatAlertDialogStyle">
         <item name="colorAccent">@color/colorDialogAccent</item>
-        <item name="android:background">@color/colorPrimary_500</item>
+        <item name="android:background">@color/colorPrimary_400</item>
     </style>
 </resources>
