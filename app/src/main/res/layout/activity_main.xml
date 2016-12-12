@@ -7,7 +7,7 @@
     android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ddd"
+    android:background="@color/colorPrimary_50"
     android:fitsSystemWindows="true"
     tools:context="com.pigdogbay.codewordsolver.MainActivity"
     >
@@ -15,6 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bgskyblue"
         >
 
         <com.google.android.gms.ads.AdView
@@ -30,10 +31,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/adView"
-            android:layout_marginBottom="1dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
             android:background="@android:color/white"
             android:minHeight="60dp"
             android:orientation="horizontal"
@@ -78,6 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary_100"
             android:layout_marginBottom="1dp"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="1dp"
@@ -89,11 +91,10 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/keyboard_container"
             android:layout_below="@id/serach_bar"
-            android:layout_marginBottom="2dp"
+            android:layout_marginBottom="1dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="0dp"
-            android:background="@android:color/white"
             />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
