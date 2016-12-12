@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
                 .addTestDevice(getString(R.string.code_test_device_5_id))
                 .addTestDevice(getString(R.string.code_test_device_6_id))
                 .addTestDevice(getString(R.string.code_test_device_7_id))
+                .addTestDevice(getString(R.string.code_test_device_8_id))
                 .build();
         adView.loadAd(adRequest);
 
@@ -325,6 +326,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         word = word.toUpperCase();
         //use cloned searchQuery as user may have altered the query
         List<Square> newSquares = MainModel.get().getQueryCopy().createNewSquares(word);
+
         String newLetters = getSquareSet().addNewSquares(newSquares);
         if (newLetters.length()>0) {
             Toast.makeText(this, "Added " + newLetters, Toast.LENGTH_SHORT).show();
