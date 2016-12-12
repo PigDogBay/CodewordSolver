@@ -4,9 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.pigdogbay.codewordsolver.controllers.HelpFragment;
 import com.pigdogbay.codewordsolver.controllers.ResultsFragment;
 import com.pigdogbay.codewordsolver.controllers.SquareAdapter;
@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     //Need to clone the query before a search, as user could edit the query afterwards and then press +
     private Query queryCopy;
     private TextView searchHintText;
+    private AdView adView;
+
 
     //Model getters
     private Query getQuery() {
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         if (fragment==null){
             showTips();
         }
+        setUpAds();
         checkAppRate();
     }
     private void checkAppRate() {
@@ -98,6 +101,22 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             new com.pigdogbay.lib.apprate.AppRate(this)
                     .setMinDaysUntilPrompt(7).setMinLaunchesUntilPrompt(5).init();
         }catch (Exception e){e.printStackTrace();}
+    }
+    void setUpAds() {
+        // Look up the AdView as a resource and load a request.
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(getString(R.string.code_test_device_1_id))
+                .addTestDevice(getString(R.string.code_test_device_2_id))
+                .addTestDevice(getString(R.string.code_test_device_3_id))
+                .addTestDevice(getString(R.string.code_test_device_4_id))
+                .addTestDevice(getString(R.string.code_test_device_5_id))
+                .addTestDevice(getString(R.string.code_test_device_6_id))
+                .addTestDevice(getString(R.string.code_test_device_7_id))
+                .build();
+        adView.loadAd(adRequest);
+
     }
 
     private void search() {
@@ -126,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
 
     @Override
     protected void onResume() {
+        if (adView != null) {
+            adView.resume();
+        }
         super.onResume();
         getBackgroundTasks().stateObservable.addObserver(this);
         modelToView(getBackgroundTasks().stateObservable.getValue());
@@ -142,6 +164,9 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
 
     @Override
     protected void onPause() {
+        if (adView != null) {
+            adView.pause();
+        }
         super.onPause();
         getBackgroundTasks().stateObservable.removeObserver(this);
 
