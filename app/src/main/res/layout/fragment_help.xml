@@ -18,8 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:text="Codeword Solver"
             android:textSize="32sp"
             />
@@ -52,7 +52,7 @@
             android:id="@+id/help_rate_button"
             android:theme="@style/MaterialButton"
             style="@style/tips_button"
-            android:drawableLeft="@drawable/heart"
+            android:drawableLeft="@drawable/star_blue"
             android:text="help out and rate the app"/>
 
         <Button
