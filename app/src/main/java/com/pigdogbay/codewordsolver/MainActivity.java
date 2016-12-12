@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -217,7 +218,10 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
             letterPickerDialog.show(this, squareView,
                     new DialogInterface.OnDismissListener() {
                         @Override
-                        public void onDismiss(DialogInterface dialogInterface) {                            squareAdapter.notifyDataSetChanged();                        }
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            squareAdapter.notifyDataSetChanged();
+                            checkForVictory();
+                        }
                     },
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -290,6 +294,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
                             getSquareSet().addNewSquares(newSquares);
                             keyboardView.invalidate();
                             squareAdapter.notifyDataSetChanged();
+                            checkForVictory();
                         }
                     })
                     .show();
@@ -324,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         Toast.makeText(this,"Added "+newLetters,Toast.LENGTH_SHORT).show();
         keyboardView.invalidate();
         squareAdapter.notifyDataSetChanged();
+        checkForVictory();
     }
 
     private void clear() {
@@ -337,11 +343,30 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         keyboardView.invalidate();
     }
 
+    private void checkForVictory(){
+        if (!getSquareSet().isComplete())return;
+
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this, R.style.letter_picker_dialog);
+        builder.setTitle("Victory!")
+                .setMessage("You have found all the letters")
+                .setNegativeButton("Cancel",null)
+                .setPositiveButton("Start Over", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        clear();
+                        reset();
+                    }
+                });
+        builder.show();
+    }
+
     /**
      * Help Fragment Listener
      */
     @Override
     public void onReset() {
+        clear();
         reset();
     }
 

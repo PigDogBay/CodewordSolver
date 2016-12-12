@@ -88,4 +88,11 @@ public class SquareSet {
             set[i].setLetter(letters[i]);
         }
     }
+
+    public boolean isComplete(){
+        for (int i=0;i<26;i++){
+            if ("".equals(set[i].getLetter())) return false;
+        }
+        return true;
+    }
 }
