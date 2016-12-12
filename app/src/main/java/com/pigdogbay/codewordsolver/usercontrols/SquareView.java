@@ -18,6 +18,9 @@ import com.pigdogbay.codewordsolver.model.Square;
  * Custom view of a square in the codeword grid
  */
 public class SquareView extends View implements View.OnClickListener, View.OnLongClickListener {
+    public static final int PREF_WIDTH = 80;
+    public static final int PREF_HEIGHT = 80;
+
     private final onSquareClickListener squareClickListener;
     private Paint numberPaint, letterPaint;
     private float letterX, letterY, numberX, numberY;
@@ -53,8 +56,8 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
         letterPaint.setColor(Color.BLACK);
         letterPaint.setTypeface(Typeface.SANS_SERIF);
         letterPaint.setTextAlign(Paint.Align.CENTER);
-        preferredWidth = 80;
-        preferredHeight = 80;
+        preferredWidth = PREF_WIDTH;
+        preferredHeight = PREF_HEIGHT;
         if (squareClickListener!=null) {
             setOnClickListener(this);
             setOnLongClickListener(this);
