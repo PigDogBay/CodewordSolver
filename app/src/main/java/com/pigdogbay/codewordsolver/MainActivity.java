@@ -210,11 +210,9 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     @Override
     public void onSquareLongClicked(SquareView squareView) {
         if (squareView.getSquare().getNumber() == Square.DELETE) {
-            //clear all
-            getQuery().clear();
-            searchHintText.setVisibility(View.VISIBLE);
-            squareAdapter.notifyDataSetChanged();
+            clear();
         } else {
+
             LetterPickerDialog letterPickerDialog = new LetterPickerDialog();
             letterPickerDialog.show(this, squareView,
                     new DialogInterface.OnDismissListener() {
@@ -224,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            clear();
                             reset();
                         }
                     });
@@ -327,13 +326,15 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         squareAdapter.notifyDataSetChanged();
     }
 
-    private void reset() {
+    private void clear() {
         getQuery().clear();
-        getSquareSet().reset();
         getBackgroundTasks().reset();
-        keyboardView.invalidate();
         squareAdapter.notifyDataSetChanged();
         searchHintText.setVisibility(View.VISIBLE);
+    }
+    private void reset() {
+        getSquareSet().reset();
+        keyboardView.invalidate();
     }
 
     /**
