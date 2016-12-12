@@ -2,6 +2,7 @@ package com.pigdogbay.codewordsolver;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -38,8 +39,6 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     private SquareAdapter squareAdapter;
     private RecyclerView recyclerView;
     private KeyboardView keyboardView;
-    //Need to clone the query before a search, as user could edit the query afterwards and then press +
-    private Query queryCopy;
     private TextView searchHintText;
     private AdView adView;
 
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         }
         if (getBackgroundTasks().isReady()) {
             //clone the query incase user needs to add a word to the letters
-            queryCopy = getQuery().copy();
+            MainModel.get().copyQuery();
             CodewordSolver codewordSolver = getCodewordSolver();
             codewordSolver.parse(getQuery().getPattern());
             codewordSolver.setFoundLetters(getSquareSet().getFoundLetters());
@@ -277,18 +276,24 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
 
     private void analyzeResults(List<String> results) {
         Analysis analysis = getAnalysis();
-        List<Square> newSquares = analysis.analyzeResults(results);
+        final List<Square> newSquares = analysis.analyzeResults(results);
         if (newSquares.size() > 0) {
-            String newLetters = "Adding ";
+            String newLetters = "Found ";
             for (Square s : newSquares) {
                 newLetters = newLetters + s.getLetter();
             }
-            Toast.makeText(this, newLetters, Toast.LENGTH_LONG).show();
             //ask user to add new squares
-            //yes update query/squareset/keyboard
-            getSquareSet().addNewSquares(newSquares);
-            keyboardView.invalidate();
-            squareAdapter.notifyDataSetChanged();
+            Snackbar
+                    .make(findViewById(R.id.root_view) , newLetters,Snackbar.LENGTH_LONG)
+                    .setAction("ADD", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            getSquareSet().addNewSquares(newSquares);
+                            keyboardView.invalidate();
+                            squareAdapter.notifyDataSetChanged();
+                        }
+                    })
+                    .show();
         }
     }
 
@@ -315,8 +320,9 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     public void addResult(String word) {
         word = word.toUpperCase();
         //use cloned searchQuery as user may have altered the query
-        List<Square> newSquares = queryCopy.createNewSquares(word);
-        getSquareSet().addNewSquares(newSquares);
+        List<Square> newSquares = MainModel.get().getQueryCopy().createNewSquares(word);
+        String newLetters =  getSquareSet().addNewSquares(newSquares);
+        Toast.makeText(this,"Added "+newLetters,Toast.LENGTH_SHORT).show();
         keyboardView.invalidate();
         squareAdapter.notifyDataSetChanged();
     }
@@ -337,4 +343,5 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
     public void onReset() {
         reset();
     }
+
 }

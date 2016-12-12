@@ -11,7 +11,7 @@ public class MainModel
     private static MainModel mainModel;
 
     private SquareSet squareSet;
-    private Query query;
+    private Query query, queryCopy;
     private BackgroundTasks backgroundTasks;
     private CodewordSolver codewordSolver;
     private Analysis analysis;
@@ -58,6 +58,13 @@ public class MainModel
             analysis.setQuery(getQuery());
         }
         return analysis;
+    }
+
+    public void copyQuery(){
+        this.queryCopy = query.copy();
+    }
+    public Query getQueryCopy(){
+        return queryCopy;
     }
 
 }

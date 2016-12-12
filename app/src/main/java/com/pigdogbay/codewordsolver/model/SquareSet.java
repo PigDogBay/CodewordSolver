@@ -59,12 +59,15 @@ public class SquareSet {
         return false;
     }
 
-    public void addNewSquares(List<Square> newSquares) {
+    public String addNewSquares(List<Square> newSquares) {
+        String added="";
         for (Square square : newSquares) {
             if (!contains(square.getLetter())) {
+                added = added + square.getLetter();
                 getSquare(square.getNumber()).setLetter(square.getLetter());
             }
         }
+        return added;
     }
 
     public String flatten() {
