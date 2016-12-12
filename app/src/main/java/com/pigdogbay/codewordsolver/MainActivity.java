@@ -325,10 +325,12 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
         word = word.toUpperCase();
         //use cloned searchQuery as user may have altered the query
         List<Square> newSquares = MainModel.get().getQueryCopy().createNewSquares(word);
-        String newLetters =  getSquareSet().addNewSquares(newSquares);
-        Toast.makeText(this,"Added "+newLetters,Toast.LENGTH_SHORT).show();
-        keyboardView.invalidate();
-        squareAdapter.notifyDataSetChanged();
+        String newLetters = getSquareSet().addNewSquares(newSquares);
+        if (newLetters.length()>0) {
+            Toast.makeText(this, "Added " + newLetters, Toast.LENGTH_SHORT).show();
+            keyboardView.invalidate();
+            squareAdapter.notifyDataSetChanged();
+        }
         checkForVictory();
     }
 
