@@ -7,8 +7,8 @@ android {
         applicationId "com.pigdogbay.codewordsolver"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 10000
-        versionName "1.00.00"
+        versionCode 10001
+        versionName "1.00.01"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
     }
