@@ -115,7 +115,8 @@ public class BackgroundTasks
         protected Void doInBackground(CodewordSolver... codewordSolvers) {
             wordLists.get(0).reset();
             wordLists.get(0).findCodewords(codewordSolvers[0],this);
-            if (wordMatches.getCount()==0){
+            //ArrayList is not thread safe, so use WordList.getCount() instead of getMatches.getCount()
+            if (wordLists.get(0).getCcount()==0){
                 wordLists.get(1).reset();
                 //no words found try the pro word list
                 wordLists.get(1).findCodewords(codewordSolvers[0],this);
