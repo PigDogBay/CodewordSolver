@@ -1,19 +1,15 @@
 package com.pigdogbay.codewordsolver.usercontrols;
 
 import android.content.Context;
-import android.content.pm.LabeledIntent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.pigdogbay.codewordsolver.R;
 import com.pigdogbay.codewordsolver.model.Square;
 
 import java.util.List;
-
-import static android.R.attr.x;
 
 /**
  * Created by Mark on 05/12/2016.
@@ -42,7 +38,7 @@ public class RowView extends LinearLayout {
             Drawable background = getContext().getDrawable(R.drawable.keyboard_selector);
             squareView.setBackground(background);
         } else {
-            squareView.setBackgroundColor(Color.WHITE);
+            squareView.setBackgroundColor(ContextCompat.getColor(getContext(),R.color.colorPrimary_50));
         }
     }
 
