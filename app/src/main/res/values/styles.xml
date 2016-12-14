@@ -25,6 +25,9 @@
         <item name="colorControlHighlight">@color/colorAccent</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
+    <style name="TipsButtonTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/colorAccent</item>
+    </style>
     <style name="LetterPickerButtonTheme" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/colorAccent</item>
     </style>
@@ -52,6 +55,7 @@
         <item name="android:drawablePadding">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginTop">16dp</item>
+        <item name="android:textColor">#000</item>
     </style>
     <style name="tips_button" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
@@ -62,6 +66,7 @@
         <item name="android:drawablePadding">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_marginTop">16dp</item>
+        <item name="android:textColor">#000</item>
     </style>
 
     <style name="letter_picker_dialog" parent="AppCompatAlertDialogStyle">

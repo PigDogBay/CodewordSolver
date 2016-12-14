@@ -42,21 +42,21 @@
 
         <Button
             android:id="@+id/help_feedback_button"
-            android:theme="@style/MaterialButton"
+            android:theme="@style/TipsButtonTheme"
             style="@style/tips_button"
             android:drawableLeft="@drawable/heart"
             android:text="Send Feedback to improve the app"/>
 
         <Button
             android:id="@+id/help_rate_button"
-            android:theme="@style/MaterialButton"
+            android:theme="@style/TipsButtonTheme"
             style="@style/tips_button"
-            android:drawableLeft="@drawable/star_blue"
+            android:drawableLeft="@drawable/heart"
             android:text="help out and rate the app"/>
 
         <Button
             android:id="@+id/help_reset_button"
-            android:theme="@style/MaterialButton"
+            android:theme="@style/TipsButtonTheme"
             style="@style/tips_button"
             android:drawableLeft="@drawable/gear"
             android:text="CLEAR LETTERS"/>
