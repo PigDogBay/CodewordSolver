@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
@@ -33,6 +34,7 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
     public boolean isShowQuestionMarkIfEmpty() {
         return showQuestionMarkIfEmpty;
     }
+
     public void setShowQuestionMarkIfEmpty(boolean showQuestionMarkIfEmpty) {
         this.showQuestionMarkIfEmpty = showQuestionMarkIfEmpty;
     }
@@ -51,7 +53,7 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
         init();
     }
 
-    private void init(){
+    private void init() {
         numberPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         letterPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         letterPaint.setColor(Color.BLACK);
@@ -59,12 +61,12 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
         letterPaint.setTextAlign(Paint.Align.CENTER);
         preferredWidth = PREF_WIDTH;
         preferredHeight = PREF_HEIGHT;
-        if (squareClickListener!=null) {
+        if (squareClickListener != null) {
             setOnClickListener(this);
             setOnLongClickListener(this);
         }
         //image is a vector
-        deleteImg =  AppCompatDrawableManager.get().getDrawable(getContext(),R.drawable.ic_backspace_black_24dp);
+        deleteImg = AppCompatDrawableManager.get().getDrawable(getContext(), R.drawable.ic_backspace_black_24dp);
     }
 
     @Override
@@ -77,11 +79,11 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
         letterPaint.setTextSize(letterSize);
 
 
-        numberX = width*0.1f;
-        numberY = numSize*1.09f;
+        numberX = width * 0.1f;
+        numberY = numSize * 1.09f;
         //center letter horizontally
-        letterX = width/2.0f;
-        letterY = width*0.91f;
+        letterX = width / 2.0f;
+        letterY = width * 0.91f;
     }
 
     @Override
@@ -95,8 +97,8 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
 
         int width;
         int height;
-        int prefWidthPx = (int) DisplayUtils.convertDpToPixel(preferredWidth,getContext());
-        int prefHeightPx = (int) DisplayUtils.convertDpToPixel(preferredHeight,getContext());
+        int prefWidthPx = (int) DisplayUtils.convertDpToPixel(preferredWidth, getContext());
+        int prefHeightPx = (int) DisplayUtils.convertDpToPixel(preferredHeight, getContext());
 
         //Measure Width
         if (widthMode == MeasureSpec.EXACTLY) {
@@ -120,21 +122,19 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
             height = prefHeightPx;
         }
 
-        deleteImg.setBounds((int)(width*0.1f),(int)(height*0.1f),(int)(width*0.9f),(int)(height*0.9f));
-        setMeasuredDimension(width,height);
+        deleteImg.setBounds((int) (width * 0.1f), (int) (height * 0.1f), (int) (width * 0.9f), (int) (height * 0.9f));
+        setMeasuredDimension(width, height);
     }
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (square==null){
+        if (square == null) {
             //draw blank
-        }
-        else if ( square.getNumber()==Square.DELETE) {
+        } else if (square.getNumber() == Square.DELETE) {
             deleteImg.draw(canvas);
-        }
-        else if (!square.getLetter().equals("") ) {
+        } else if (!square.getLetter().equals("")) {
             canvas.drawText(square.getNumberString(), numberX, numberY, numberPaint);
             canvas.drawText(square.getLetter(), letterX, letterY, letterPaint);
         } else if (showQuestionMarkIfEmpty) {
@@ -145,10 +145,16 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
         }
     }
 
+
     @Override
     public void onClick(View view) {
         this.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         squareClickListener.onSquareClicked(this);
+        AudioManager am = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
+        if (am != null) {
+            float vol = 0.5f; //This will be half of the default system sound
+            am.playSoundEffect(AudioManager.FX_KEY_CLICK, vol);
+        }
     }
 
     @Override
