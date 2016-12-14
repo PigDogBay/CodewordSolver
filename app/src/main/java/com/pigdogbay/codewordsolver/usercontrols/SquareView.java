@@ -12,14 +12,15 @@ import android.view.View;
 
 import com.pigdogbay.codewordsolver.R;
 import com.pigdogbay.codewordsolver.model.Square;
+import com.pigdogbay.lib.utils.DisplayUtils;
 
 /**
  * Created by Mark on 05/12/2016.
  * Custom view of a square in the codeword grid
  */
 public class SquareView extends View implements View.OnClickListener, View.OnLongClickListener {
-    public static final int PREF_WIDTH = 80;
-    public static final int PREF_HEIGHT = 80;
+    public static final int PREF_WIDTH = 40;
+    public static final int PREF_HEIGHT = 40;
 
     private final onSquareClickListener squareClickListener;
     private Paint numberPaint, letterPaint;
@@ -92,31 +93,31 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
-        int width=preferredWidth;
-        int height=preferredWidth;
+        int width;
+        int height;
+        int prefWidthPx = (int) DisplayUtils.convertDpToPixel(preferredWidth,getContext());
+        int prefHeightPx = (int) DisplayUtils.convertDpToPixel(preferredHeight,getContext());
+
         //Measure Width
         if (widthMode == MeasureSpec.EXACTLY) {
             //Must be this size
             width = widthSize;
         } else if (widthMode == MeasureSpec.AT_MOST) {
             //Can't be bigger than...
-            width = Math.min(preferredWidth, widthSize);
+            width = Math.min(prefWidthPx, widthSize);
         } else {
-            //Be whatever you want
-            width = preferredWidth;
+            width = prefWidthPx;
         }
 
-        preferredHeight = width;
         //Measure Height
         if (heightMode == MeasureSpec.EXACTLY) {
             //Must be this size
             height = heightSize;
         } else if (heightMode == MeasureSpec.AT_MOST) {
             //Can't be bigger than...
-            height = Math.min(preferredHeight, heightSize);
+            height = Math.min(width, heightSize);
         } else {
-            //Be whatever you want
-            height = preferredHeight;
+            height = prefHeightPx;
         }
 
         deleteImg.setBounds((int)(width*0.1f),(int)(height*0.1f),(int)(width*0.9f),(int)(height*0.9f));
