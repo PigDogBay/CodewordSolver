@@ -153,7 +153,7 @@ public class SquareView extends View implements View.OnClickListener, View.OnLon
         AudioManager am = (AudioManager) getContext().getSystemService(Context.AUDIO_SERVICE);
         if (am != null) {
             float vol = 0.5f; //This will be half of the default system sound
-            am.playSoundEffect(AudioManager.FX_KEY_CLICK, vol);
+            am.playSoundEffect(AudioManager.FX_KEYPRESS_STANDARD, vol);
         }
     }
 
