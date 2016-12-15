@@ -349,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements onSquareClickList
 
     private void checkForVictory(){
         if (!getSquareSet().isComplete())return;
-
+        keyboardView.invalidate();
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(this, R.style.letter_picker_dialog);
         builder.setTitle("Victory!")
