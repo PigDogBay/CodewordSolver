@@ -1,5 +1,6 @@
 package com.pigdogbay.codewordsolver.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public class SquareSet {
     private Square[] set = new Square[27];
 
-    public static String[] ALPHABET = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+    public static final String[] ALPHABET = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
     public SquareSet() {
         for (int i = 0; i < 26; i++) {
@@ -90,9 +91,31 @@ public class SquareSet {
     }
 
     public boolean isComplete(){
+        int count = 0;
         for (int i=0;i<26;i++){
-            if ("".equals(set[i].getLetter())) return false;
+            if (!"".equals(set[i].getLetter())) count++;
+        }
+        if (count < 25){
+            return false;
+        }
+        if (count == 25){
+            addLastLetter();
         }
         return true;
+    }
+
+    private void addLastLetter() {
+        int index = 0;
+        List<String> letters = new ArrayList<>();
+        for (String l : ALPHABET){ letters.add(l);}
+        for (int i=0;i<26;i++){
+            if ("".equals(set[i].getLetter())) {
+                //find the empty square
+                index = i;
+            } else {
+                letters.remove(set[i].getLetter());
+            }
+        }
+        set[index].setLetter(letters.get(0));
     }
 }

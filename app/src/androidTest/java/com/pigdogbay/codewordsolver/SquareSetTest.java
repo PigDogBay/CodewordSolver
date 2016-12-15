@@ -73,4 +73,26 @@ public class SquareSetTest {
         assertThat(squareSet.getLetter(26),is("E"));
     }
 
+    @Test
+    public void isComplete1(){
+        SquareSet squareSet = new SquareSet();
+        squareSet.setLetter(5,"A");
+        squareSet.setLetter(1,"C");
+        squareSet.setLetter(26,"E");
+        assertThat(squareSet.isComplete(),is(false));
+    }
+    @Test
+    public void isComplete2(){
+        SquareSet squareSet = new SquareSet();
+        squareSet.unflatten("A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z");
+        assertThat(squareSet.isComplete(),is(true));
+    }
+    @Test
+    public void isComplete3(){
+        SquareSet squareSet = new SquareSet();
+        squareSet.unflatten("A,B,C,D,E,F,G,H,I,J,K,L,,N,O,P,Q,R,S,T,U,V,M,X,Y,Z");
+        assertThat(squareSet.isComplete(),is(true));
+        assertThat(squareSet.getSquare(13).getLetter(),is("W"));
+    }
+
 }
